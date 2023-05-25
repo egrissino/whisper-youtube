@@ -95,7 +95,7 @@ def getTranscription(driver, url):
         return
 
     print("Atempting Load")
-    while i < MAX_TRIES:
+    for _ in range(MAX_TRIES):
         try:
             # Load url
             driver.get(url)
@@ -122,7 +122,6 @@ def getTranscription(driver, url):
             print("Load Failed... " + str(i))
             driver.close()
             time.sleep(1)
-            i+=1
             pass
     time.sleep(5)
 
@@ -142,8 +141,7 @@ def getTranscription(driver, url):
     time.sleep(5)
 
     # Download Transcript
-    i = 0
-    while i < MAX_TRIES:
+    for _ in range(MAX_TRIES):
         try:
             sec = col.find_element(By.ID, 'secondary')
             panels = sec.find_element(By.ID, 'panels')
@@ -156,7 +154,6 @@ def getTranscription(driver, url):
             break
         except:
             time.sleep(1)
-            i+=1
             pass
 
     # Write transcript to file
