@@ -58,6 +58,7 @@ def startDriver(webdriver_service):
     options = webdriver.ChromeOptions()
     options.add_experimental_option('w3c', True)
     options.add_argument("--window-size=2560,1440")
+    print(webdriver_service.service_url)
     return webdriver.Remote(webdriver_service.service_url, options=options)
 
 
@@ -143,7 +144,7 @@ if __name__ == "__main__":
         driver = startDriver(service)
 
         # Get the transcript
-        getTranscription(url)
+        getTranscription(driver, url)
 
         # Close web driver
         driver.close()
