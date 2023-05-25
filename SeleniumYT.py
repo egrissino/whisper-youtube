@@ -7,6 +7,7 @@ Selenium Youtube Transcriber
 import sys
 import time
 from sys import platform
+import os
 
 if "selenium" in str(sys.modules.keys()):
     import selenium
