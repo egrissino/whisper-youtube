@@ -79,14 +79,14 @@ def startDriver(webdriver_service=None):
         else:
             driver = webdriver.Remote(webdriver_service.service_url, options=options)
     except Exception as e:
-        print("Failed to start driver: ")
+        print(" Failed to start driver: ")
         print(e)
         return None
-    
+    print(" Driver Started Sucessfully")
     return driver
 
 
-def getTranscription(driver, url):
+def getTranscription(service, url):
     '''
     '''
     i = 0
@@ -98,6 +98,7 @@ def getTranscription(driver, url):
     for _ in range(MAX_TRIES):
         try:
             # Load url
+            driver = startDriver()
             driver.get(url)
             time.sleep(10)
 
@@ -156,6 +157,9 @@ def getTranscription(driver, url):
             time.sleep(1)
             pass
 
+    # close driver
+    driver.close()
+
     # Write transcript to file
     if "watch?v=" in url:
         filename = url.lstrip("https://www.youtube.com/watch?v=") + "_syt.txt"
@@ -177,14 +181,7 @@ if __name__ == "__main__":
     service = startService()
     if service != None:
         # Open the Chrome driver
-        driver = startDriver(service)
-
-        if driver != None:
-            # Get the transcript
-            getTranscription(driver, url)
-
-            # Close web driver
-            driver.close()
+        getTranscription(service, url)
 
 
 

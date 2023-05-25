@@ -214,14 +214,8 @@ if __name__ == "__main__":
     # Start Service
     service = syt.startService()
     if service != None:
-        # Open the Chrome driver
-        driver = syt.startDriver(service)
-
         # Get the transcript
-        transcript_syt = syt.getTranscription(driver, URL)
-
-        # Close web driver
-        driver.close()
+        transcript_syt = syt.getTranscription(service, URL)
 
     print("Genertaing Text from Whisper")
     model = loadModel()
