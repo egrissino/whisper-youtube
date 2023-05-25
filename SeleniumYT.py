@@ -58,6 +58,16 @@ def startDriver(webdriver_service):
     options = webdriver.ChromeOptions()
     options.add_experimental_option('w3c', True)
     options.add_argument("--window-size=2560,1440")
+    options.add_experimental_option("prefs", {"profile.managed_default_content_settings.images": 2}) 
+    options.add_argument("--no-sandbox") 
+    options.add_argument("--disable-setuid-sandbox") 
+    options.add_argument("--remote-debugging-port=9222")  # this
+    options.add_argument("--disable-dev-shm-using") 
+    options.add_argument("--disable-extensions") 
+    options.add_argument("--disable-gpu") 
+    options.add_argument("start-maximized") 
+    options.add_argument("disable-infobars")
+    options.add_argument(r"user-data-dir=.\cookies\\test") 
     print(webdriver_service.service_url)
     return webdriver.Remote(webdriver_service.service_url, options=options)
 
