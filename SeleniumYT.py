@@ -19,7 +19,7 @@ MAX_TRIES = 1000
 
 
 def setup():
-    global webdriver
+    global webdriver_service
     from sys import platform
     if platform == "linux" or platform == "linux2":
         driver_name = "/usr/bin/chromedriver"
