@@ -100,12 +100,14 @@ def getTranscription(driver, url):
             # Load url
             driver.get(url)
             time.sleep(10)
+
+            print(" Loaded Page, finding app..")
             
             # Load app by tag
             app = driver.find_element(By.TAG_NAME, 'ytd-app')
             time.sleep(5)
 
-            print("Opening Actions Menu")
+            print(" Opening Actions Menu")
 
             # Locate and click actions button
             content = app.find_element(By.ID, 'content')
