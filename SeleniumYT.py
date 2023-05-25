@@ -8,12 +8,14 @@ import sys
 import time
 from sys import platform
 
-if "selenium" in sys.modules.keys():
+if "selenium" in str(sys.modules.keys()):
     import selenium
     print(selenium.version)
 else:
-    print("Selium package not found! Aborting")
-    quit()
+    pass
+    #print(sys.modules.keys())
+    #print("Selium package not found! Aborting")
+
 
 from selenium import webdriver
 from selenium.webdriver.chrome import service
