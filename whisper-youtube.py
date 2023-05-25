@@ -37,7 +37,7 @@ def loadModel():
     #@markdown | large  |   1550 M   |        N/A         |      `large`       |    ~10 GB     |       1x       |
 
     #@markdown ---
-    Model = 'large' #@param ['tiny.en', 'tiny', 'base.en', 'base', 'small.en', 'small', 'medium.en', 'medium', 'large']
+    Model = 'tiny.en' #@param ['tiny.en', 'tiny', 'base.en', 'base', 'small.en', 'small', 'medium.en', 'medium', 'large']
     #@markdown ---
     #@markdown **Run this cell again if you change the model.**
 
@@ -93,10 +93,10 @@ def getTranscript(whisper_model):
     language = "English" #@param ['Auto detection', 'Afrikaans', 'Albanian', 'Amharic', 'Arabic', 'Armenian', 'Assamese', 'Azerbaijani', 'Bashkir', 'Basque', 'Belarusian', 'Bengali', 'Bosnian', 'Breton', 'Bulgarian', 'Burmese', 'Castilian', 'Catalan', 'Chinese', 'Croatian', 'Czech', 'Danish', 'Dutch', 'English', 'Estonian', 'Faroese', 'Finnish', 'Flemish', 'French', 'Galician', 'Georgian', 'German', 'Greek', 'Gujarati', 'Haitian', 'Haitian Creole', 'Hausa', 'Hawaiian', 'Hebrew', 'Hindi', 'Hungarian', 'Icelandic', 'Indonesian', 'Italian', 'Japanese', 'Javanese', 'Kannada', 'Kazakh', 'Khmer', 'Korean', 'Lao', 'Latin', 'Latvian', 'Letzeburgesch', 'Lingala', 'Lithuanian', 'Luxembourgish', 'Macedonian', 'Malagasy', 'Malay', 'Malayalam', 'Maltese', 'Maori', 'Marathi', 'Moldavian', 'Moldovan', 'Mongolian', 'Myanmar', 'Nepali', 'Norwegian', 'Nynorsk', 'Occitan', 'Panjabi', 'Pashto', 'Persian', 'Polish', 'Portuguese', 'Punjabi', 'Pushto', 'Romanian', 'Russian', 'Sanskrit', 'Serbian', 'Shona', 'Sindhi', 'Sinhala', 'Sinhalese', 'Slovak', 'Slovenian', 'Somali', 'Spanish', 'Sundanese', 'Swahili', 'Swedish', 'Tagalog', 'Tajik', 'Tamil', 'Tatar', 'Telugu', 'Thai', 'Tibetan', 'Turkish', 'Turkmen', 'Ukrainian', 'Urdu', 'Uzbek', 'Valencian', 'Vietnamese', 'Welsh', 'Yiddish', 'Yoruba']
     #@markdown > Language spoken in the audio, use `Auto detection` to let Whisper detect the language.
     
-    verbose = 'Live transcription' # ['Live transcription', 'Progress bar', 'None']
+    verbose = 'Progress bar' # ['Live transcription', 'Progress bar', 'None']
     #@markdown > Whether to print out the progress and debug messages.
 
-    output_format = 'all' # ['txt', 'vtt', 'srt', 'tsv', 'json', 'all']
+    output_format = 'txt' # ['txt', 'vtt', 'srt', 'tsv', 'json', 'all']
     # Type of file to generate to record the transcription.
 
     task = 'transcribe' #['transcribe', 'translate']
@@ -210,12 +210,16 @@ if __name__ == "__main__":
 
     URL = "https://www.youtube.com/watch?v=FV7pW4p60VI"
 
-    
+    print("Getting Youtube Transcript")
+    setup()
+    syt = syt.getTranscription(URL)
+
+    print("Genertaing Text")
     model = loadModel()
     downloadVideo(URL)
     
     wyt = getTranscript(model)
-    syt = syt.getTranscription(URL)
+
 
     
 

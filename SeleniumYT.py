@@ -17,11 +17,14 @@ from selenium.webdriver.common.by import By
 
 MAX_TRIES = 1000
 
-webdriver_service = service.Service("C:/Users/Evan/Downloads/chromedriver_win32/chromedriver.exe")
-webdriver_service.start()
-options = webdriver.ChromeOptions()
-options.add_experimental_option('w3c', True)
-options.add_argument("--window-size=2560,1440")
+
+def setup():
+    global webdriver
+    webdriver_service = service.Service("C:/Users/Evan/Downloads/chromedriver_win32/chromedriver.exe")
+    webdriver_service.start()
+    options = webdriver.ChromeOptions()
+    options.add_experimental_option('w3c', True)
+    options.add_argument("--window-size=2560,1440")
 
 
 
@@ -104,4 +107,5 @@ def getTranscription(url):
 
 if __name__ == "__main__":
     url = "https://www.youtube.com/watch?v=FV7pW4p60VI"
+    setup()
     getTranscription(url)
