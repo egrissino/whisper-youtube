@@ -53,7 +53,7 @@ def startService():
     return webdriver_service
 
 
-def startDriver(webdriver_service):
+def startDriver(webdriver_service=None):
     '''
     Start chrome Driver from the service with options
     '''
@@ -61,7 +61,8 @@ def startDriver(webdriver_service):
     options = webdriver.ChromeOptions()
     options.add_experimental_option('w3c', True)
     options.add_argument("--window-size=2560,1440")
-    options.add_experimental_option("prefs", {"profile.managed_default_content_settings.images": 2}) 
+    options.add_experimental_option("prefs", {"profile.managed_default_content_settings.images": 2})
+    options.add_argument("--headless") 
     options.add_argument("--no-sandbox") 
     options.add_argument("--disable-setuid-sandbox") 
     options.add_argument("--remote-debugging-port=9222")
@@ -72,8 +73,11 @@ def startDriver(webdriver_service):
     options.add_argument("disable-infobars")
     
     print("Atempting to start driver from webservice")
-    try: 
-        driver = webdriver.Remote(webdriver_service.service_url, options=options)
+    try:
+        if webdriver_service == None:
+            driver = webdriver.Chrome('chromedriver', optoins=options)
+        else:
+            driver = webdriver.Remote(webdriver_service.service_url, options=options)
     except Exception as e:
         print("Failed to start driver: ")
         print(e)
