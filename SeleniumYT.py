@@ -96,8 +96,8 @@ def getTranscription(driver, url):
 
     print("Atempting Load")
     while i < MAX_TRIES:
+        print("DEBUG")
         try:
-
             # Load url
             driver.get(url)
             time.sleep(10)
