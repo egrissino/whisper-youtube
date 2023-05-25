@@ -23,6 +23,6 @@ git clone https://github.com/egrissino/whisper-youtube.git
 # Install ppython dependencies
 pip install git+https://github.com/openai/whisper.git yt-dlp
 pip install yt-dlp
-pip install -r ~/whisper-youtube/requirements.txt
+pip install -r ./whisper-youtube/requirements.txt
 #
 #
