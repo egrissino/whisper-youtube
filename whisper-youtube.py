@@ -22,10 +22,15 @@ def loadModel():
     """
     """
     global Model
-    device = torch.device('cuda:0')
+    print("Loading openai whisper model")
+
+    available_gpus = [torch.cuda.device(i) for i in range(torch.cuda.device_count())]
+    print("Found {} GPUs".format(len(available_gpus)))
+    print(available_gpus)
+    
+    device = torch.device('cuda')
     print('Using device:', device, file=sys.stderr)
          
-
     #@markdown # **Model selection** 🧠
     #@markdown As of the first public release, there are 4 pre-trained options to play with:
     #@markdown |  Size  | Parameters | English-only model | Multilingual model | Required VRAM | Relative speed |
@@ -44,9 +49,9 @@ def loadModel():
     whisper_model = whisper.load_model(Model)
 
     if Model in whisper.available_models():
-        print(f"**{Model} model is selected.**")
+        print("{} model is selected.".format(Model))
     else:
-        print(f"**{Model} model is no longer available.** Please select one of the following: - {' - '.join(whisper.available_models())}")
+        print("{} model is no longer available.** Please select one of the following: - {}".format(Model, ' - '.join(whisper.available_models())))
 
     return whisper_model
          
@@ -55,6 +60,7 @@ def downloadVideo(URL):
     """
     """
     global video_path_local_list
+    print("Dowloading Video from Youtube")
     #URL = "https://www.youtube.com/watch?v=ED_yPDdqG5Y" #@param {type:"string"}
     video_path = "/my_video.mp4" #@param {type:"string"}
 
@@ -72,24 +78,32 @@ def downloadVideo(URL):
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        print("Downloading...")
         error_code = ydl.download([URL])
         list_video_info = [ydl.extract_info(URL, download=False)]
-        
+
+    print("Download complete")
     for video_info in list_video_info:
         video_path_local_list.append(Path(f"{video_info['id']}.wav"))
 
+    print("Extract audio to wav file")
+    result = None
     for video_path_local in video_path_local_list:
         if video_path_local.suffix == ".mp4":
             video_path_local = video_path_local.with_suffix(".wav")
             result  = subprocess.run(["ffmpeg", "-i", str(video_path_local.with_suffix(".mp4")), "-vn", "-acodec", "pcm_s16le", "-ar", "16000", "-ac", "1", str(video_path_local)])
+    print(result)
 
 def getTranscript(whisper_model):
-
-    #@markdown # **Run the model** 🚀
-    #@markdown Run this cell to execute the transcription of the video. This can take a while and very based on the length of the video and the number of parameters of the model selected above.
-    #@markdown ## **Parameters** ⚙️
-    #@markdown ### **Behavior control**
-    #@markdown ---
+    '''
+    Run the model
+    Run this cell to execute the transcription of the video. This can take a while and very based on the length of the video and the number of parameters of the model selected above.
+    
+    '''
+    print("Get Transcript with AI")
+    ## **** 🚀
+    # ### **Parameters** ⚙️
+    #### **Behavior control**
     language = "English" #@param ['Auto detection', 'Afrikaans', 'Albanian', 'Amharic', 'Arabic', 'Armenian', 'Assamese', 'Azerbaijani', 'Bashkir', 'Basque', 'Belarusian', 'Bengali', 'Bosnian', 'Breton', 'Bulgarian', 'Burmese', 'Castilian', 'Catalan', 'Chinese', 'Croatian', 'Czech', 'Danish', 'Dutch', 'English', 'Estonian', 'Faroese', 'Finnish', 'Flemish', 'French', 'Galician', 'Georgian', 'German', 'Greek', 'Gujarati', 'Haitian', 'Haitian Creole', 'Hausa', 'Hawaiian', 'Hebrew', 'Hindi', 'Hungarian', 'Icelandic', 'Indonesian', 'Italian', 'Japanese', 'Javanese', 'Kannada', 'Kazakh', 'Khmer', 'Korean', 'Lao', 'Latin', 'Latvian', 'Letzeburgesch', 'Lingala', 'Lithuanian', 'Luxembourgish', 'Macedonian', 'Malagasy', 'Malay', 'Malayalam', 'Maltese', 'Maori', 'Marathi', 'Moldavian', 'Moldovan', 'Mongolian', 'Myanmar', 'Nepali', 'Norwegian', 'Nynorsk', 'Occitan', 'Panjabi', 'Pashto', 'Persian', 'Polish', 'Portuguese', 'Punjabi', 'Pushto', 'Romanian', 'Russian', 'Sanskrit', 'Serbian', 'Shona', 'Sindhi', 'Sinhala', 'Sinhalese', 'Slovak', 'Slovenian', 'Somali', 'Spanish', 'Sundanese', 'Swahili', 'Swedish', 'Tagalog', 'Tajik', 'Tamil', 'Tatar', 'Telugu', 'Thai', 'Tibetan', 'Turkish', 'Turkmen', 'Ukrainian', 'Urdu', 'Uzbek', 'Valencian', 'Vietnamese', 'Welsh', 'Yiddish', 'Yoruba']
     #@markdown > Language spoken in the audio, use `Auto detection` to let Whisper detect the language.
     
@@ -177,9 +191,10 @@ def getTranscript(whisper_model):
     if Model.endswith(".en") and args["language"] not in {"en", "English"}:
         warnings.warn(f"{Model} is an English-only model but receipted '{args['language']}'; using English instead.")
         args["language"] = "en"
-
+    
+    video_transcriptions = []
     for video_path_local in video_path_local_list:
-        print(f"### {video_path_local}")
+        print(" transcribing {}".format(video_path_local))
 
         video_transcription = whisper.transcribe(
             whisper_model,
@@ -202,7 +217,10 @@ def getTranscript(whisper_model):
             )
         )
 
-        #yield video_transcription
+        video_transcriptions.appen(video_transcription)
+
+    print("Transcription Finished")
+    return video_transcriptions
 
 
 
