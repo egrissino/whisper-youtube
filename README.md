@@ -11,7 +11,7 @@ Whisper is a general-purpose speech recognition model. It is trained on a large 
 This notebook will guide you through the transcription of a Youtube video using Whisper. You'll be able to explore most inference parameters or use the Notebook as-is to store the transcript and the audio of the video in your Google Drive.
 
 
-# **Check GPU type** 🕵️
+# **Check GPU type** 
 
 The type of GPU you get assigned in your Colab session defined the speed at which the video will be transcribed.
 The higher the number of floating point operations per second (FLOPS), the faster the transcription.
@@ -53,7 +53,7 @@ Make sure you've selected `GPU` as hardware accelerator for the Notebook (Runtim
 ```
 
 
-# **Install libraries** 🏗️
+# **Install libraries** 
 This cell will take a little while to download several libraries, including Whisper.
 
 ---
@@ -92,7 +92,7 @@ This cell will take a little while to download several libraries, including Whis
     Using device: cuda:0
 ```
 
-# **Optional:** Save images in Google Drive 💾
+# **Optional:** Save images in Google Drive 
 Enter a Google Drive path and run this cell if you want to store the results inside Google Drive.
 
 ---
@@ -104,7 +104,7 @@ Enter a Google Drive path and run this cell if you want to store the results ins
 
 
 
-# **Model selection** 🧠
+# **Model selection**
 
 As of the first public release, there are 4 pre-trained options to play with:
 
@@ -131,7 +131,7 @@ As of the first public release, there are 4 pre-trained options to play with:
 
 
 
-# **Video selection** 📺
+# **Video selection** 
 
 Enter the URL of the Youtube video you want to transcribe, whether you want to save the audio file in your Google Drive, and run the cell.
 
@@ -144,7 +144,7 @@ Enter the URL of the Youtube video you want to transcribe, whether you want to s
 ---
 **Run this cell again if you change the video.**
 
-# **Run the model** 🚀
+# **Run the model** 
 
 Run this cell to execute the transcription of the video. This can take a while and is very much based on the length of the video and the number of parameters of the model selected above.
 
