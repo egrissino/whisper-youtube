@@ -214,7 +214,7 @@ if __name__ == "__main__":
     setup()
     syt = syt.getTranscription(URL)
 
-    print("Genertaing Text")
+    print("Genertaing Text from Whisper")
     model = loadModel()
     downloadVideo(URL)
     
