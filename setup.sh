@@ -1,10 +1,10 @@
 #!/bin/bash
 sudo yum update
-sudo yum install git pyhton python-pip
+sudo yum install -y git python python-pip
 #
 # Install Chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-sudo dnf localinstall ./google-chrome-stable_current_x86_64.rpm
+sudo dnf -y localinstall ./google-chrome-stable_current_x86_64.rpm
 #
 wget https://chromedriver.storage.googleapis.com/113.0.5672.63/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip
