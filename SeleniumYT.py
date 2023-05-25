@@ -20,7 +20,15 @@ MAX_TRIES = 1000
 
 def setup():
     global webdriver
-    webdriver_service = service.Service("C:/Users/Evan/Downloads/chromedriver_win32/chromedriver.exe")
+    from sys import platform
+    if platform == "linux" or platform == "linux2":
+        driver_name = "/usr/bin/chromedriver"
+    elif platform == "darwin":
+        driver_name = "/Applications/chromedriver.app"
+    elif platform == "win32":
+        driver_name = "C:\Program Files\Google\chromedriver\chromedriver.exe"
+        
+    webdriver_service = service.Service(driver_name)
     webdriver_service.start()
     options = webdriver.ChromeOptions()
     options.add_experimental_option('w3c', True)
