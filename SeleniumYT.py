@@ -104,6 +104,9 @@ def getTranscription(driver, url):
             
             # Load app by tag
             app = driver.find_element(By.TAG_NAME, 'ytd-app')
+            time.sleep(5)
+
+            print("Opening Actions Menu")
 
             # Locate and click actions button
             content = app.find_element(By.ID, 'content')
@@ -115,11 +118,14 @@ def getTranscription(driver, url):
             button.click()
             break
         except:
+            print("Load Failed... " + i)
             driver.close()
             time.sleep(1)
+            i+=1
             pass
     time.sleep(5)
 
+    
     # Locate and click transcript button in actions dropdown
     popup = driver.find_element(By.TAG_NAME, 'ytd-popup-container')
     dropdowns = popup.find_elements(By.TAG_NAME, 'tp-yt-iron-dropdown')
@@ -149,6 +155,7 @@ def getTranscription(driver, url):
             break
         except:
             time.sleep(1)
+            i+=1
             pass
 
     # Write transcript to file
