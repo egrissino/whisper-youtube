@@ -67,7 +67,7 @@ def startDriver(webdriver_service):
     options.add_argument("--disable-gpu") 
     options.add_argument("start-maximized") 
     options.add_argument("disable-infobars")
-    options.add_argument(r"user-data-dir=.\cookies\\test") 
+    #options.add_argument(r"user-data-dir=.\cookies\\test") 
     print(webdriver_service.service_url)
     return webdriver.Remote(webdriver_service.service_url, options=options)
 
