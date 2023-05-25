@@ -1,8 +1,6 @@
 # whisper youtube requirements
 
 pathlib
-yt-dlp
 torch
 shutil
 numpy
-openai-whisper @ git+https://github.com/openai/whisper.git
