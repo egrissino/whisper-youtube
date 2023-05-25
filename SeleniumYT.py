@@ -6,10 +6,14 @@ Selenium Youtube Transcriber
 
 import sys
 import time
+from sys import platform
 
 if "selenium" in sys.modules.keys():
     import selenium
     print(selenium.version)
+else:
+    print("Selium package not found! Aborting")
+    quit()
 
 from selenium import webdriver
 from selenium.webdriver.chrome import service
@@ -17,31 +21,46 @@ from selenium.webdriver.common.by import By
 
 MAX_TRIES = 1000
 
-
-def setup():
-    global webdriver_service
-    from sys import platform
+def startService():
+    '''
+    Locate the 
+    '''
+    
     if platform == "linux" or platform == "linux2":
         driver_name = "/usr/bin/chromedriver"
     elif platform == "darwin":
         driver_name = "/Applications/chromedriver.app"
     elif platform == "win32":
         driver_name = "C:\Program Files\Google\chromedriver\chromedriver.exe"
+
+    if not os.path.exists(driver_name):
+        print("Failed to find chrome driver on system type: " + platform)
+        print("Please check install: " + driver_name)
+        return None
         
-    webdriver_service = service.Service(driver_name)
-    webdriver_service.start()
+    try:
+        webdriver_service = service.Service(driver_name)
+        webdriver_service.start()
+    except:
+        print("Failed to start webdriver service: " + webdriver_service)
+        return None
+        
+    return webdriver_service
+
+
+def startDriver(webdriver_service):
+    '''
+    Start chrome Driver from the service with options
+    '''
     options = webdriver.ChromeOptions()
     options.add_experimental_option('w3c', True)
     options.add_argument("--window-size=2560,1440")
+    return webdriver.Remote(webdriver_service.service_url, options=options)
 
 
-
-
-def getTranscription(url):
-    """
-    """
-    driver = webdriver.Remote(webdriver_service.service_url, options=options)
-
+def getTranscription(driver, url):
+    '''
+    '''
     i = 0
     while i < MAX_TRIES:
         try:
@@ -107,13 +126,25 @@ def getTranscription(url):
     outfile.write(transcript)
     outfile.close()
 
-    # Close web driver
-    driver.close()
-
     return transcript
 
 
 if __name__ == "__main__":
+    # Example transcript
     url = "https://www.youtube.com/watch?v=FV7pW4p60VI"
-    setup()
-    getTranscription(url)
+
+    # Start Service
+    service = startService()
+    if service != None:
+        # Open the Chrome driver
+        driver = startDriver(service)
+
+        # Get the transcript
+        getTranscription(url)
+
+        # Close web driver
+        driver.close()
+
+
+
+    

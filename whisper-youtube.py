@@ -211,8 +211,17 @@ if __name__ == "__main__":
     URL = "https://www.youtube.com/watch?v=FV7pW4p60VI"
 
     print("Getting Youtube Transcript")
-    syt.setup()
-    syt = syt.getTranscription(URL)
+    # Start Service
+    service = syt.startService()
+    if service != None:
+        # Open the Chrome driver
+        driver = syt.startDriver(service)
+
+        # Get the transcript
+        transcript_syt = syt.getTranscription(url)
+
+        # Close web driver
+        driver.close()
 
     print("Genertaing Text from Whisper")
     model = loadModel()
