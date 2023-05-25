@@ -211,7 +211,7 @@ if __name__ == "__main__":
     URL = "https://www.youtube.com/watch?v=FV7pW4p60VI"
 
     print("Getting Youtube Transcript")
-    setup()
+    syt.setup()
     syt = syt.getTranscription(URL)
 
     print("Genertaing Text from Whisper")
