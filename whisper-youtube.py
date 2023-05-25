@@ -218,7 +218,7 @@ if __name__ == "__main__":
         driver = syt.startDriver(service)
 
         # Get the transcript
-        transcript_syt = syt.getTranscription(url)
+        transcript_syt = syt.getTranscription(driver, URL)
 
         # Close web driver
         driver.close()
