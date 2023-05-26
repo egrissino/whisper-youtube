@@ -32,7 +32,7 @@ def startService():
     if platform == "linux" or platform == "linux2":
         driver_name = "/usr/bin/chromedriver"
     elif platform == "darwin":
-        driver_name = "/Applications/chromedriver.app"
+        driver_name = "/Applications/chromedriver/chromedriver"
     elif platform == "win32":
         driver_name = "C:\Program Files\Google\chromedriver\chromedriver.exe"
 
@@ -187,7 +187,7 @@ def getTranscription(service, url):
 
 if __name__ == "__main__":
     # Example transcript
-    url = "https://www.youtube.com/watch?v=FV7pW4p60VI"
+    url = "https://www.youtube.com/watch?v=FymR0rKdLZo"
 
     # Start Service
     service = startService()
