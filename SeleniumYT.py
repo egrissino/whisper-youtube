@@ -31,6 +31,16 @@ def printDebug(msg):
         print(msg)
 
 
+def checkCreateDir(out_dir):
+    if not os.path.exists(out_dir):
+        try:
+            os.mkdir(out_dir)
+        except Exception as e:
+            print("Failed to create out_dir: " + out_dir)
+            print(e)
+            return False
+    return True
+    
 
 def getFilenameFromURL(url):
     '''
@@ -114,16 +124,10 @@ def startDriver(webdriver_service=None):
 def getTranscription(service, url, overw=False, out_dir="./"):
     '''
     '''
-
-    if not os.path.exists(out_dir):
-        try:
-            os.mkdir(out_dir)
-        except Exception as e:
-            print("Failed to create out_dir: " + out_dir)
-            print(e)
-            return
         
     filename = getFilenameFromURL(url)
+
+    checkCreateDir(out_dir)
 
     if os.path.exists(out_dir + filename) and (overw == False):
         print("Transcript already generated")

@@ -128,24 +128,26 @@ if __name__ == "__main__":
             for t in ["t","T","true","True","TRUE"]:
                 if t in sys.argv[4]:
                     overw = True
+
+        skips = []
+        if argc >= 6:
+            if os.path.exists(sys.argv[5]):
+                skips = os.listdir(sys.argv[5])
         
         links = getLinks(filename)
+
+        
         if len(links) > 0:
             # Start Service
             service = syt.startService()
             if service != None:
                 # Open the Chrome driver
                 for url in sliceAtInd(list(links.keys()),count-1):
+                    if ((links[url][2] + '.txt') in skips) and (not overw):
+                        print("Skipping transcript: " + links[url][2])
+                        continue
                     try:
                         syt.getTranscription(service, url, overw, out_dir)
-
-                        # Rename to video name
-                        filename = out_dir + syt.getFilenameFromURL(url)
-                        newFilename = out_dir + links[url][2] + ".txt"
-
-                        if os.path.exists(filename):
-                            move(filename, newFilename)
-                        
                     except Exception as e:
                         print(e)
                         pass
