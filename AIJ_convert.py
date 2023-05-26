@@ -30,4 +30,5 @@ if __name__ == "__main__":
         newFilename = out_dir + links[url][2] + ".txt"
 
         if os.path.exists(filename):
-            shutil.copy(filename, newFilename)
+            if not os.path.exists(newFilename):
+                shutil.copy(filename, newFilename)
