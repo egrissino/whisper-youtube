@@ -12,6 +12,8 @@ import shutil
 import SeleniumYT as syt
 import AIJ_transcript as aijt
 
+DEBUG = false
+
 if __name__ == "__main__":
     
     argc = len(sys.argv)
@@ -35,3 +37,5 @@ if __name__ == "__main__":
         if os.path.exists(filename):
             if not os.path.exists(newFilename):
                 shutil.copy(filename, newFilename)
+                print("Copied new file: " + newFilename)
+                
