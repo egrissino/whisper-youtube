@@ -7,6 +7,7 @@ AIJ Transcript Name Converter
 '''
 
 import os
+import sys
 import shutil
 import SeleniumYT as syt
 import AIJ_transcript as aijt
