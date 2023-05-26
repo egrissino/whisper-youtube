@@ -12,8 +12,10 @@ import SeleniumYT as syt
 import AIJ_transcript as aijt
 
 if __name__ == "__main__":
-
+    
     argc = len(sys.argv)
+
+    in_dir = './ytd/'
     if argc > 1:
         in_dir = sys.argv[1]
 
