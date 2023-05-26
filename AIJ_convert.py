@@ -12,7 +12,7 @@ import shutil
 import SeleniumYT as syt
 import AIJ_transcript as aijt
 
-DEBUG = false
+DEBUG = False
 
 if __name__ == "__main__":
     
