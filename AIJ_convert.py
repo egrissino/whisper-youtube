@@ -12,8 +12,6 @@ import shutil
 import SeleniumYT as syt
 import AIJ_transcript as aijt
 
-DEBUG = False
-
 if __name__ == "__main__":
     
     argc = len(sys.argv)
@@ -27,6 +25,7 @@ if __name__ == "__main__":
     out_dir = "./AIJ/"
     syt.checkCreateDir(out_dir)
 
+    syt.DEBUG = False
     links = aijt.getLinks()
 
     for url in links:
