@@ -24,11 +24,26 @@ from selenium.webdriver.common.by import By
 
 MAX_TRIES = 20
 
-DEBUG = False
+DEBUG = True
 
 def printDebug(msg):
     if DEBUG:
         print(msg)
+
+
+
+def getFilenameFromURL(url):
+    '''
+    get filename from yt url
+    '''
+    if "watch?v=" in url:
+        filename = url.lstrip("https://www.youtube.com/watch?v=") + "_syt.txt"
+    elif "https://youtu.be/" in url:
+        filename = url.lstrip("https://youtu.be/") + "_syt.txt"
+    else:
+        filename = 'transcript_syt.txt'
+
+    return filename
 
 
 def startService():
@@ -108,12 +123,7 @@ def getTranscription(service, url, overw=False, out_dir="./"):
             print(e)
             return
         
-    if "watch?v=" in url:
-        filename = url.lstrip("https://www.youtube.com/watch?v=") + "_syt.txt"
-    elif "https://youtu.be/" in url:
-        filename = url.lstrip("https://youtu.be/") + "_syt.txt"
-    else:
-        filename = 'transcript_syt.txt'
+    filename = getFilenameFromURL(url)
 
     if os.path.exists(out_dir + filename) and (overw == False):
         print("Transcript already generated")

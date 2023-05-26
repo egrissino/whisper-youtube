@@ -10,6 +10,7 @@ import os
 import sys
 import datetime
 import SeleniumYT as syt
+from shutil import move
 
 def splitLine(line, sep=','):
     data = []
@@ -27,12 +28,26 @@ def splitLine(line, sep=','):
             elem += char
 
     return data
-    
+
+
+def sliceAtInd(array, count=-1):
+    '''
+    Slice array at index
+    '''
+    if count >= len(array):
+        count = len(array)-1
+    out = array[:count]
+    out.append(array[count])
+    return out
+
+def moveFile(file, newFile):
+    '''
+    '''
 
 def getLinks(AIJ_data_filename="./AIJ_full_data.csv"):
     '''
     '''
-    links = []
+    links = {}
     # date in yyyy/mm/dd format
     today = datetime.datetime.now()
 
@@ -49,7 +64,6 @@ def getLinks(AIJ_data_filename="./AIJ_full_data.csv"):
 
     for line in inbuff[offset:]:
         data = splitLine(line) #line.split(',')
-        #print(data)
         posted = data[1].split(' ')
         date = posted[0].split('/')
 
@@ -58,7 +72,7 @@ def getLinks(AIJ_data_filename="./AIJ_full_data.csv"):
 
             if video_date < today:
                 print("{} : Available".format(data[2]))
-                links.append(data[3])
+                links[data[3]] = data
             else:
                 print("{} : Not Available".format(data[2]))
         except Exception as e:
@@ -68,7 +82,7 @@ def getLinks(AIJ_data_filename="./AIJ_full_data.csv"):
     return links
 
 usage = '''
-Usage: AIJ_transcript [AIJ_Full_data.csv] [Output Directory]
+Usage: AIJ_transcript [AIJ_Full_data.csv] [Output Directory] [count]
 
     AIJ_Full_data.csv - Full path to the csvv file containing
         the full coda data from the Active Inference Journal
@@ -77,39 +91,66 @@ Usage: AIJ_transcript [AIJ_Full_data.csv] [Output Directory]
         the transcripts. The folder will be created if it
         doesn't already exists.
 
+    (optoinal) count - Total number of links to transcribe.
+
+    (optional) Overwrite - T/F weather or not overwrite
+        existing transcriptions.
+
     This function takes a csv download of the coda full
     data and for each youtube link extracts the avaialble
     transcript from the youtube video.
 '''
 
+
 if __name__ == "__main__":
 
     argc = len(sys.argv)
+    #print(sys.argv)
 
     if argc < 2:
         print(usage)
     else:
         filename = sys.argv[1]
-        links = getLinks(filename)
 
+        out_dir = "./AIJ/"
         if argc >= 3:
-            out_dir = argv[2]
-        else:
-            out_dir = "./AIJ/"
+            out_dir = sys.argv[2]
 
+        count = -1
+        if argc >= 4:
+            try:
+                count = int(sys.argv[3])
+            except:
+                pass
+
+        overw = False
+        if argc >= 5:
+            for t in ["t","T","true","True","TRUE"]:
+                if t in sys.argv[4]:
+                    overw = True
+        
+        links = getLinks(filename)
         if len(links) > 0:
             # Start Service
             service = syt.startService()
             if service != None:
                 # Open the Chrome driver
-                for url in links:
+                for url in sliceAtInd(list(links.keys()),count-1):
                     try:
-                        syt.getTranscription(service, url, False, out_dir)
+                        syt.getTranscription(service, url, overw, out_dir)
+
+                        # Rename to video name
+                        filename = out_dir + syt.getFilenameFromURL(url)
+                        newFilename = out_dir + links[url][2] + ".txt"
+
+                        if os.path.exists(filename):
+                            move(filename, newFilename)
+                        
                     except Exception as e:
                         print(e)
                         pass
-
                 service.stop()
+                print("Service stopped")
             else:
                 print("Service crashed")
 
