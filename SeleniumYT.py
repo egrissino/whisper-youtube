@@ -26,9 +26,9 @@ MAX_TRIES = 20
 
 DEBUG = True
 
-def printDebug(msg):
+def printDebug(*msg):
     if DEBUG:
-        print(msg)
+        print(*msg)
 
 
 def checkCreateDir(out_dir):
