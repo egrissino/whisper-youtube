@@ -71,12 +71,12 @@ def getLinks(AIJ_data_filename="./AIJ_full_data.csv"):
             video_date = datetime.datetime(int(date[2])+2000, int(date[0]),int(date[1]))
 
             if video_date < today:
-                print("{} : Available".format(data[2]))
+                syt.printDebug("{} : Available".format(data[2]))
                 links[data[3]] = data
             else:
-                print("{} : Not Available".format(data[2]))
+                syt.printDebug("{} : Not Available".format(data[2]))
         except Exception as e:
-            print(e,data)
+            syt.printDebug(e,data)
             continue
         
     return links
@@ -133,6 +133,7 @@ if __name__ == "__main__":
         if argc >= 6:
             if os.path.exists(sys.argv[5]):
                 skips = os.listdir(sys.argv[5])
+                print(skips)
         
         links = getLinks(filename)
 
