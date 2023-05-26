@@ -68,7 +68,14 @@ def getLinks(AIJ_data_filename="./AIJ_full_data.csv"):
     return links
 
 usage = '''
-Usage: AIJ_transcript [AIJ_Full_data.csv]
+Usage: AIJ_transcript [AIJ_Full_data.csv] [Output Directory]
+
+    AIJ_Full_data.csv - Full path to the csvv file containing
+        the full coda data from the Active Inference Journal
+
+    Output Directory - Full path to the output directory for
+        the transcripts. The folder will be created if it
+        doesn't already exists.
 
     This function takes a csv download of the coda full
     data and for each youtube link extracts the avaialble
@@ -77,12 +84,18 @@ Usage: AIJ_transcript [AIJ_Full_data.csv]
 
 if __name__ == "__main__":
 
-    if len(sys.argv) < 2:
+    argc = len(sys.argv)
+
+    if argc < 2:
         print(usage)
     else:
         filename = sys.argv[1]
         links = getLinks(filename)
-        out_dir = "/Users/evan/Documents/AIJ/"
+
+        if argc >= 3:
+            out_dir = argv[2]
+        else:
+            out_dir = "./AIJ/"
 
         if len(links) > 0:
             # Start Service
