@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     argc = len(sys.argv)
     if argc > 1:
-        out_dir = sys.argv[2]
+        out_dir = sys.argv[1]
 
     print("Running in directory: " + out_dir)
 
