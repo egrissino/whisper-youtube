@@ -82,7 +82,7 @@ def getLinks(AIJ_data_filename="./AIJ_Full_Data.csv"):
     return links
 
 usage = '''
-Usage: AIJ_transcript [AIJ_Full_data.csv] [Output Directory] [count]
+Usage: AIJ_transcript [AIJ_Full_data.csv] [Output Directory] [count] [Overwrite] [Skips Path]
 
     AIJ_Full_data.csv - Full path to the csvv file containing
         the full coda data from the Active Inference Journal
@@ -95,6 +95,9 @@ Usage: AIJ_transcript [AIJ_Full_data.csv] [Output Directory] [count]
 
     (optional) Overwrite - T/F weather or not overwrite
         existing transcriptions.
+
+    (optional) Skips Path - Full path to the directory with
+        already transcripbed and converted text files.
 
     This function takes a csv download of the coda full
     data and for each youtube link extracts the avaialble
@@ -112,7 +115,7 @@ if __name__ == "__main__":
     else:
         filename = sys.argv[1]
 
-        out_dir = "./AIJ/"
+        out_dir = "./ytd/"
         if argc >= 3:
             out_dir = sys.argv[2]
 
@@ -129,11 +132,15 @@ if __name__ == "__main__":
                 if t in sys.argv[4]:
                     overw = True
 
-        skips = []
+        skips_dir = "./AIJ/"
         if argc >= 6:
-            if os.path.exists(sys.argv[5]):
-                skips = os.listdir(sys.argv[5])
-                print(skips)
+            skips_dir = sys.argv[5]
+            
+
+        skips = []
+        if os.path.exists(skips_dir):
+            skips = os.listdir(skips_dir)
+            print(skips)
         
         links = getLinks(filename)
 
