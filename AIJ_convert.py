@@ -23,7 +23,7 @@ if __name__ == "__main__":
     print("Running in directory: " + in_dir)
 
     out_dir = "./AIJ/"
-    checkCreateDir(out_dir)
+    syt.checkCreateDir(out_dir)
 
     links = aijt.getLinks()
 
