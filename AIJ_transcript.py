@@ -44,7 +44,7 @@ def moveFile(file, newFile):
     '''
     '''
 
-def getLinks(AIJ_data_filename="./AIJ_full_data.csv"):
+def getLinks(AIJ_data_filename="./AIJ_Full_Data.csv"):
     '''
     '''
     links = {}
