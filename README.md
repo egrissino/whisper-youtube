@@ -1,7 +1,6 @@
 # **Youtube Videos Transcription with OpenAI's Whisper**
 
 [![blog post shield](https://img.shields.io/static/v1?label=&message=Blog%20post&color=blue&style=for-the-badge&logo=openai&link=https://openai.com/blog/whisper)](https://openai.com/blog/whisper)
-[![notebook shield](https://img.shields.io/static/v1?label=&message=Notebook&color=blue&style=for-the-badge&logo=googlecolab&link=https://colab.research.google.com/github/ArthurFDLR/whisper-youtube/blob/main/whisper_youtube.ipynb)](https://colab.research.google.com/github/ArthurFDLR/whisper-youtube/blob/main/whisper_youtube.ipynb)
 [![repository shield](https://img.shields.io/static/v1?label=&message=Repository&color=blue&style=for-the-badge&logo=github&link=https://github.com/openai/whisper)](https://github.com/openai/whisper)
 [![paper shield](https://img.shields.io/static/v1?label=&message=Paper&color=blue&style=for-the-badge&link=https://cdn.openai.com/papers/whisper.pdf)](https://cdn.openai.com/papers/whisper.pdf)
 [![model card shield](https://img.shields.io/static/v1?label=&message=Model%20card&color=blue&style=for-the-badge&link=https://github.com/openai/whisper/blob/main/model-card.md)](https://github.com/openai/whisper/blob/main/model-card.md)
@@ -13,19 +12,34 @@ This notebook will guide you through the transcription of a Youtube video using 
 
 # **Check GPU type** 
 
-The type of GPU you get assigned in your Colab session defined the speed at which the video will be transcribed.
+The type of GPU you use will define the speed at which the video will be transcribed.
 The higher the number of floating point operations per second (FLOPS), the faster the transcription.
-But even the least powerful GPU available in Colab is able to run any Whisper model.
+But even the least powerful GPU available  is able to run any Whisper model.
 Make sure you've selected `GPU` as hardware accelerator for the Notebook (Runtime &rarr; Change runtime type &rarr; Hardware accelerator).
 
 |  GPU   |  GPU RAM   | FP32 teraFLOPS |     Availability   |
 |:------:|:----------:|:--------------:|:------------------:|
-|  T4    |    16 GB   |       8.1      |         Free       |
-| P100   |    16 GB   |      10.6      |      Colab Pro     |
-| V100   |    16 GB   |      15.7      |  Colab Pro (Rare)  |
+|  T4    |    16 GB   |       8.1      |      G5 class      |
+| P100   |    16 GB   |      10.6      |      P4 class      |
+| V100   |    16 GB   |      15.7      |      P4 class      |
+| A100   |    16 GB   |      15.7      |      P4 class      |
+
+GPU comprison chart from https://github.com/openai/whisper/discussions/918
+
+|  GPU Medium   |   FP16    |Medium FP32|Large FP16	|Large FP32	|Realtive Time Cost |
+|:-------------:|:---------:|:---------:|:---------:|:---------:|:-----------------:|
+|2080Ti	        |148.18s	|  219.39s  |  255.30s  |  448.24s  |       3.7x        |
+|3080Ti	        |109.24s	|  107.81s  |  172.35s  |  186.32s  |       1.6x        |
+|3090	        |145.53s	|  122.58s  |  214.87s  |  186.12s  |       1.6x        |
+|4090	        |99.60s	    |  79.99s   |  149.03s  |  120.05s  |       1.0x        |
+|V100	        |203.25s	|  174.18s  |  284.62s  |  253.42s  |       2.1x        |
+|A4000	        |135.99s	|  128.12s  |  205.21s  |  214.69s  |       1.8x        |
+|A5000	        |143.97s	|  124.50s  |  205.43s  |  198.11s  |       1.7x        |
+|A6000	        |139.25s	|  115.63s  |  194.95s  |  175.97s  |       1.5x        |
+|A100 PCIE 40G	|133.01s	|  113.94s  |  196.19s  |  175.62s  |       1.5x        |
+|A100 SXM4 40G	|123.66s	|  105.85s  |  172.36s  |  162.67s  |       1.4x        |
 
 ---
-**Factory reset your Notebook's runtime if you want to get assigned a new GPU.**
 
 
 ```
