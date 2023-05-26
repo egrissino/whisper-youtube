@@ -104,7 +104,7 @@ if __name__ == "__main__":
                 # Open the Chrome driver
                 for url in links:
                     try:
-                        syt.getTranscription(service, url, True, out_dir)
+                        syt.getTranscription(service, url, False, out_dir)
                     except Exception as e:
                         print(e)
                         pass
