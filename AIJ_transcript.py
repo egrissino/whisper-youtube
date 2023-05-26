@@ -7,6 +7,7 @@ AIJ Transcript Generator
 '''
 
 import os
+import sys
 import datetime
 import SeleniumYT as syt
 
@@ -28,20 +29,19 @@ def splitLine(line, sep=','):
     return data
     
 
-def getLinks():
+def getLinks(AIJ_data_filename="./AIJ_full_data.csv"):
     '''
     '''
     links = []
     # date in yyyy/mm/dd format
     today = datetime.datetime.now()
 
-
-    AIJ_data_filename = "/Users/evan/Documents/AIJ_full_data.csv"
+    #AIJ_data_filename = "/Users/evan/Documents/AIJ_full_data.csv"
     offset = 3
 
     if not os.path.exists(AIJ_data_filename):
-        print("File not Found!")
-        quit()
+        print("File not Found! " + AIJ_data_filename)
+        return
         
     infile = open(AIJ_data_filename, 'r', encoding='latin-1')
     inbuff = infile.readlines()
@@ -59,7 +59,6 @@ def getLinks():
             if video_date < today:
                 print("{} : Available".format(data[2]))
                 links.append(data[3])
-                break
             else:
                 print("{} : Not Available".format(data[2]))
         except Exception as e:
@@ -68,19 +67,38 @@ def getLinks():
         
     return links
 
+usage = '''
+Usage: AIJ_transcript [AIJ_Full_data.csv]
+
+    This function takes a csv download of the coda full
+    data and for each youtube link extracts the avaialble
+    transcript from the youtube video.
+'''
 
 if __name__ == "__main__":
 
-    links = getLinks()
+    if len(sys.argv) < 2:
+        print(usage)
+    else:
+        filename = sys.argv[1]
+        links = getLinks(filename)
+        out_dir = "/Users/evan/Documents/AIJ/"
 
-    out_dir = "/Users/evan/AIJ"
+        if len(links) > 0:
+            # Start Service
+            service = syt.startService()
+            if service != None:
+                # Open the Chrome driver
+                for url in links:
+                    try:
+                        syt.getTranscription(service, url, True, out_dir)
+                    except Exception as e:
+                        print(e)
+                        pass
 
-    # Start Service
-    service = syt.startService()
-    if service != None:
-        # Open the Chrome driver
-        for url in links:
-            syt.getTranscription(service, url)
+                service.stop()
+            else:
+                print("Service crashed")
 
     
 

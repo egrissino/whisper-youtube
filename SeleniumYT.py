@@ -24,7 +24,7 @@ from selenium.webdriver.common.by import By
 
 MAX_TRIES = 20
 
-DEBUG = True
+DEBUG = False
 
 def printDebug(msg):
     if DEBUG:
@@ -96,9 +96,29 @@ def startDriver(webdriver_service=None):
     return driver
 
 
-def getTranscription(service, url):
+def getTranscription(service, url, overw=False, out_dir="./"):
     '''
     '''
+
+    if not os.path.exists(out_dir):
+        try:
+            os.mkdir(out_dir)
+        except Exception as e:
+            print("Failed to create out_dir: " + out_dir)
+            print(e)
+            return
+        
+    if "watch?v=" in url:
+        filename = url.lstrip("https://www.youtube.com/watch?v=") + "_syt.txt"
+    elif "https://youtu.be/" in url:
+        filename = url.lstrip("https://youtu.be/") + "_syt.txt"
+    else:
+        filename = 'transcript_syt.txt'
+
+    if os.path.exists(out_dir + filename) and (overw == False):
+        print("Transcript already generated")
+        return
+        
     i = 0
     print(url)
 
@@ -111,7 +131,7 @@ def getTranscription(service, url):
             # Load url
             driver = startDriver(service)
             driver.get(url)
-            time.sleep(15)
+            time.sleep(20)
 
             printDebug(" Loaded Page, finding app..")
             
@@ -207,23 +227,15 @@ def getTranscription(service, url):
     # close driver
     driver.close()
 
+    # Write transcript to file
     if transcript_found:
         printDebug("Save Transcript")
-        # Write transcript to file
-        if "watch?v=" in url:
-            filename = url.lstrip("https://www.youtube.com/watch?v=") + "_syt.txt"
-        elif "https://youtu.be/" in url:
-            filename = url.lstrip("https://youtu.be/") + "_syt.txt"
-        else:
-            filename = 'transcript_syt.txt'
-
         if (transcript != None):
             outfile = open(out_dir + filename, 'w')
             outfile.write(transcript)
             outfile.close()
         else:
             print("Failed to save Transcript!")
-
         return transcript
     else:
         print("Could not find Transcript!")
@@ -232,7 +244,7 @@ def getTranscription(service, url):
 if __name__ == "__main__":
     # Example transcript
     url = "https://youtu.be/0pMxBM3ahwQ"
-    out_dir = "/Users/evan/AIJ"
+    out_dir = "/Users/evan/AIJ/"
 
     # Start Service
     service = startService()
