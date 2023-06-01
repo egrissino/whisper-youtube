@@ -3,3 +3,4 @@
 pathlib
 torch
 numpy
+selenium
