@@ -217,7 +217,7 @@ def getTranscript(whisper_model):
             )
         )
 
-        video_transcriptions.appen(video_transcription)
+        video_transcriptions.append(video_transcription)
 
     print("Transcription Finished")
     return video_transcriptions
