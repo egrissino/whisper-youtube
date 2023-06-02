@@ -10,6 +10,7 @@ import os
 import sys
 import datetime
 import SeleniumYT as syt
+import whisperyoutube as wyt
 from shutil import move
 
 def splitLine(line, sep=','):
