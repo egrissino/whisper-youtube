@@ -163,6 +163,17 @@ if __name__ == "__main__":
                 print("Service stopped")
             else:
                 print("Service crashed")
+                
+            print("Genertaing Text from Whisper")
+            model = loadModel()
+            if model != None:
+                try:
+                    downloadVideo(URL)
+                    wyt = getTranscript(model)
+                except Exception as e:
+                    print(e)
+                    pass
+            
 
     
 
