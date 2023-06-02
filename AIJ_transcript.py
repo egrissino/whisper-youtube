@@ -166,11 +166,11 @@ if __name__ == "__main__":
                 print("Service crashed")
                 
             print("Genertaing Text from Whisper")
-            model = loadModel()
+            model = wyt.loadModel()
             if model != None:
                 try:
-                    downloadVideo(URL)
-                    wyt = getTranscript(model)
+                    wyt.downloadVideo(URL)
+                    whisper_transcript = wyt.getTranscript(model)
                 except Exception as e:
                     print(e)
                     pass
