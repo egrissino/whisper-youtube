@@ -168,13 +168,14 @@ if __name__ == "__main__":
             print("Genertaing Text from Whisper")
             model = wyt.loadModel()
             if model != None:
-                try:
-                    wyt.downloadVideo(URL)
-                    whisper_transcript = wyt.getTranscript(model)
-                except Exception as e:
-                    print(e)
-                    pass
-            
+                for url in sliceAtInd(list(links.keys()),count-1):
+                    try:
+                        wyt.downloadVideo(url)
+                        whisper_transcript = wyt.getTranscript(model)
+                    except Exception as e:
+                        print(e)
+                        pass
+
 
     
 
